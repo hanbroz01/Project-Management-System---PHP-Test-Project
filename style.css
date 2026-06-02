@@ -1,0 +1,112 @@
+/* --- Global Styles --- */
+body {
+  font-family: Arial, sans-serif;
+  margin: 40px;
+  background-color: #f9f9f9;
+}
+
+/* --- Button Styles --- */
+.btn {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: #6c757d;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.btn:hover {
+  background-color: #5a6268;
+}
+
+.submit-btn {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: #6c757d;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.submit-btn:hover {
+  background-color: #fff200;
+  color: black;
+}
+
+/* --- Typography Styles --- */
+h3 {
+  color: red;
+}
+
+/* --- Table Styles for view_user.php --- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* Base style for headers and cells */
+th,
+td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* Table Header Styles */
+thead tr {
+  background-color: #0944aa;
+}
+
+th {
+  color: #ffffff;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+/* Zebra Striping (makes alternating rows light grey) */
+tbody tr:nth-child(even) {
+  background-color: #f8fafc;
+}
+
+/* Subtle highlight effect when hovering over a specific user row */
+tbody tr:hover {
+  background-color: #edf2f7;
+}
+
+/* --- Action Button Styles --- */
+
+/* The 'Edit' link button styling */
+.btn-edit {
+  display: inline-block;
+  padding: 6px 12px;
+  background-color: #3182ce; /* Professional blue */
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-edit:hover {
+  background-color: #2b6cb0; /* Slightly darker blue on hover */
+}
+
+/* --- Toastr Popup Styles --- */
+#toast-container > .toast-success {
+  background-color: #4a90e2 !important;
+  color: #ffffff !important;
+}
+
+#toast-container > .toast-success .toast-progress {
+  background-color: #ffffff !important;
+  opacity: 0.4;
+}
