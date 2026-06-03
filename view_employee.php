@@ -10,7 +10,7 @@
     
     <a href="index.php" class="btn">Back to Dashboard</a>
     <a href="create_employee.php" class="btn">Create Member Profile</a>
-
+<hr />
     <?php
     $file = 'members.json';
 

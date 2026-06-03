@@ -113,8 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     
 
     <a href="index.php" class="btn">Back to Dashboard</a> 
-
-    </br></br>
+<hr />
 
     <h3>Please make sure each field is correctly entered before creating new Employee Profile</h3>
 

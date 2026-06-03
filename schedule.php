@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         file_put_contents($schedules_file, json_encode($schedules, JSON_PRETTY_PRINT));
         
         $_SESSION['flash_message'] = "Shift successfully assigned!";
-        header("Location: index.php");
+        header("Location: schedule.php");
         exit();
     }
 }
@@ -65,8 +65,8 @@ if (file_exists($schedules_file) && filesize($schedules_file) > 0) {
 <body>
     <h2>Assign a New Shift</h2>
     <a href="index.php" class="btn">Back to Dashboard</a>
-    <br><br>
-
+    <hr />
+    <br>
     <form action="schedule.php" method="POST">
         <label>Select Employee:</label><br>
         <select name="employee_email" required>
@@ -97,14 +97,15 @@ if (file_exists($schedules_file) && filesize($schedules_file) > 0) {
 
     <hr>
 
-    <h2>Current Rostered Shifts</h2>
-    <table border="1" cellpadding="10" style="width:100%; border-collapse: collapse; text-align: left;">
+    <h2>Current Schedule</h2>
+    <table class="table">
         <thead>
             <tr>
                 <th>First Name</th>
                 <th>Employee Email</th>
                 <th>Date</th>
                 <th>Shift Time</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -117,8 +118,16 @@ if (file_exists($schedules_file) && filesize($schedules_file) > 0) {
                         <td><?php echo htmlspecialchars($shift['email']); ?></td>
                         <td><?php echo htmlspecialchars($shift['date']); ?></td>
                         <td><?php echo htmlspecialchars($shift['shift_time']); ?></td>
-                    </tr>
-                <?php endforeach; ?>
+                        <td>
+                            <a href="edit_schedule.php?email=<?php echo urlencode($shift['email']); ?>" class="btn-edit">Edit</a>
+                            <a href="delete_schedule.php?email=<?php echo urlencode($shift['email']); ?>&date=<?php echo urlencode($shift['date']); ?>" 
+                            class="btn-delete" 
+                            onclick="return confirm('Are you sure you want to delete this specific shift?');">
+                            Delete
+                            </a>
+                        </td>
+            
+                </tr><?php endforeach; ?>
             <?php endif; ?>
         </tbody>
     </table>
