@@ -6,6 +6,6 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Local data files (Optional: add if you want your actual employee entries private)
-# members.json
-# schedules.json
+# Local data files 
+members.json
+schedules.json
