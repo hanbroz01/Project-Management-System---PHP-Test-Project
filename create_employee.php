@@ -114,9 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <a href="index.php" class="btn">Back to Dashboard</a> 
 <hr />
-
-    <h3>Please make sure each field is correctly entered before creating new Employee Profile</h3>
-
+<div class="create_menu">
     <form action="create_employee.php" method="POST">
         
         <label>First Name:</label><br>
@@ -136,8 +134,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <option value="Volunteer">Volunteer</option>
             </select>
             <br><br>
-
-        <button type="submit" class="submit-btn">Create New Profile</button>
+        <button type="submit" class="submit-btn">Create New Employee Profile</button>
     </form>
-    </br>
+</div>
+</body>
 </html>
