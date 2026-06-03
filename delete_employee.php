@@ -3,7 +3,7 @@ session_start();
 
 if (isset($_GET['email'])) {
     $email_to_delete = urldecode($_GET['email']);
-    $file = 'members.json';
+    $file = 'employee_list.json';
 
     if (file_exists($file) && filesize($file) > 0) {
         $json_data = file_get_contents($file);

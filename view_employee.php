@@ -28,7 +28,7 @@ session_start();
     <a href="create_employee.php" class="btn">Create New Employee Profile</a>
 <hr />
     <?php
-    $file = 'members.json';
+    $file = 'employee_list.json';
 
     // 1. Check if the file exists and isn't empty
     if (file_exists($file) && filesize($file) > 0) {
@@ -46,7 +46,7 @@ session_start();
         echo "</thead>";
         echo "<tbody>";
 
-        // 5. Loop through every member inside the JSON and output their row
+        // 5. Loop through every employee inside the JSON and output their row
         foreach ($members as $m) {
             echo "<tr>";
             echo "<td>" . htmlspecialchars($m['first_name']) . "</td>";
@@ -54,7 +54,7 @@ session_start();
             echo "<td>" . htmlspecialchars($m['email']) . "</td>";
             echo "<td>" . htmlspecialchars($m['role']) . "</td>";
             echo "<td>";
-            echo "<a href='edit_member.php?email=" . urlencode($m['email']) . "' class='btn-edit'>Edit</a>";
+            echo "<a href='edit_employee.php?email=" . urlencode($m['email']) . "' class='btn-edit'>Edit</a>";
             echo "<a href='delete_employee.php?email=" . urlencode($m['email']) . "' class='btn-delete' onclick='return confirm(\"Are you sure you want to delete this Employee?\");'>Delete</a>";
             echo "</td>";
             echo "</tr>";

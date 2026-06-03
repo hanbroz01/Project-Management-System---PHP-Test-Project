@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // DUPLICATE CHECK (Only run this if the user actually typed an email)
     if (!empty(trim($_POST['email']))) {
-        $file = 'members.json';
+        $file = 'employee_list.json';
         $submitted_email = strtolower(trim($_POST['email'])); // Normalize email to lowercase
 
         // Open the file and look through existing members
@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $success = true;
 
         // --- 💾 SAVE TO JSON FILE 💾 ---
-        $file = 'members.json';
+        $file = 'employee_list.json';
         
         // Read existing members if the file exists, otherwise start a fresh array
         if (file_exists($file) && filesize($file) > 0) {
