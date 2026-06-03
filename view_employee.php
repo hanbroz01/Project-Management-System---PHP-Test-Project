@@ -22,7 +22,7 @@ session_start();
 </head>
 <body>
 
-    <h2>Registered Employees</h2>
+    <h2>View Employee Profiles</h2>
     
     <a href="index.php" class="btn">Back to Dashboard</a>
     <a href="create_employee.php" class="btn">Create New Employee Profile</a>

@@ -119,9 +119,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             <label>Employee Role:</label>
             <select name="role">
-                <option value="manager" <?php echo (($user_to_edit['role'] ?? '') === 'manager') ? 'selected' : ''; ?>>Manager</option>
-                <option value="staff" <?php echo (($user_to_edit['role'] ?? '') === 'staff') ? 'selected' : ''; ?>>Staff</option>
-                <option value="volunteer" <?php echo (($user_to_edit['role'] ?? '') === 'volunteer') ? 'selected' : ''; ?>>Volunteer</option>
+                <option value="Manager" <?php echo (($user_to_edit['role'] ?? '') === 'manager') ? 'selected' : ''; ?>>Manager</option>
+                <option value="Staff" <?php echo (($user_to_edit['role'] ?? '') === 'staff') ? 'selected' : ''; ?>>Staff</option>
+                <option value="Volunteer" <?php echo (($user_to_edit['role'] ?? '') === 'volunteer') ? 'selected' : ''; ?>>Volunteer</option>
             </select>
 
             <button type="submit" class="btn-save">Save Changes</button>
