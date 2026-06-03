@@ -1,15 +1,31 @@
+<?php
+session_start(); 
+?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>View Members</title>
+   <title>View Employees</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+
+        $(document).ready(function() {
+            toastr.options = {
+                "positionClass": "toast-top-right",
+                "timeOut": "4000"
+            };
+        });
+    </script>
 </head>
 <body>
 
-    <h2>Registered Members</h2>
+    <h2>Registered Employees</h2>
     
     <a href="index.php" class="btn">Back to Dashboard</a>
-    <a href="create_employee.php" class="btn">Create Member Profile</a>
+    <a href="create_employee.php" class="btn">Create New Employee Profile</a>
 <hr />
     <?php
     $file = 'members.json';
@@ -26,7 +42,7 @@
         // 4. Start building the HTML table
         echo "<table>";
         echo "<thead>";
-        echo "<tr><th>First Name</th><th>Last Name</th><th>Email Address</th><th>User Role</th><th>Actions</th></tr>";
+        echo "<tr><th>First Name</th><th>Last Name</th><th>Email Address</th><th>Role</th><th>Actions</th></tr>";
         echo "</thead>";
         echo "<tbody>";
 
@@ -47,6 +63,11 @@
     }}
 
     ?>
-
+<script>
+        <?php if (isset($_SESSION['flash_message'])): ?>
+            toastr.success("<?php echo $_SESSION['flash_message']; ?>");
+            <?php unset($_SESSION['flash_message']); ?>
+        <?php endif; ?>
+    </script>
 </body>
 </html>
