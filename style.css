@@ -5,6 +5,41 @@ body {
   background-color: #f9f9f9;
 }
 
+/* --- Main Navigation Buttons  --- */
+
+.nav-main {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 300px;
+  margin: 20px 0;
+  background-color: #c5e8f4;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.nav-link {
+  width: 100%;
+  text-decoration: none;
+}
+
+.nav-btn {
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 16px;
+  background-color: #12bbf4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.nav-btn:hover {
+  background-color: #5a6268;
+}
+
 /* --- Button Styles --- */
 .btn {
   display: inline-block;
@@ -33,6 +68,39 @@ body {
 .submit-btn:hover {
   background-color: #fff200;
   color: black;
+}
+
+/* --- Action Buttons - View User --- */
+
+.btn-edit {
+  display: inline-block;
+  padding: 6px 12px;
+  background-color: #3182ce; /* Professional blue */
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  margin-right: 10px;
+}
+
+.btn-edit:hover {
+  background-color: #2b6cb0; /* Slightly darker blue on hover */
+}
+
+.btn-delete {
+  display: inline-block;
+  padding: 6px 12px;
+  background-color: #3182ce; /* Professional blue */
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-delete:hover {
+  background-color: #2b6cb0; /* Slightly darker blue on hover */
 }
 
 /* --- Typography Styles --- */
@@ -80,24 +148,6 @@ tbody tr:nth-child(even) {
 /* Subtle highlight effect when hovering over a specific user row */
 tbody tr:hover {
   background-color: #edf2f7;
-}
-
-/* --- Action Button Styles --- */
-
-/* The 'Edit' link button styling */
-.btn-edit {
-  display: inline-block;
-  padding: 6px 12px;
-  background-color: #3182ce; /* Professional blue */
-  color: white;
-  text-decoration: none;
-  font-size: 14px;
-  border-radius: 4px;
-  transition: background-color 0.2s ease;
-}
-
-.btn-edit:hover {
-  background-color: #2b6cb0; /* Slightly darker blue on hover */
 }
 
 /* --- Toastr Popup Styles --- */

@@ -1,1 +1,11 @@
-/.DS_Store
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE configurations
+.vscode/
+.idea/
+
+# Local data files (Optional: add if you want your actual employee entries private)
+# members.json
+# schedules.json

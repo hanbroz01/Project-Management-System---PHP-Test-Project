@@ -1,13 +1,8 @@
 [
     {
         "first_name": "Han",
+        "last_name": "Brozinski",
         "email": "hanbrozinski@gmail.com",
-        "role": "manager"
-    },
-    {
-        "first_name": "Han",
-        "last_name": "",
-        "email": "han@gmail.com",
-        "role": "manager"
+        "role": "Manager"
     }
 ]

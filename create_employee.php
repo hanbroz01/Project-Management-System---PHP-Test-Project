@@ -15,6 +15,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $errors[] = "First Name is required.";
     }
 
+    if (empty(trim($_POST['last_name']))) {
+        $errors[] = "Last Name is required.";
+    }
+
     if (empty(trim($_POST['email']))) {
         $errors[] = "Email Address is required.";
     }
@@ -89,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         $_SESSION['flash_message'] = "Member Added: " . $member['first_name'] . " (" . $member['role'] . ")";
             
-        // Redirect back to index.php (Make sure you rename index.html to index.php!)
+       
         header("Location: index.php");
         exit();  
 }
@@ -100,11 +104,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Create Account</title>
+    <title>Create Profile</title>
    <link rel="stylesheet" href="style.css">
     </head>
 <body>
-<h2>Create New User Account</h2>
+<h2>Create New Employee Profile</h2>
 
     
 
@@ -112,25 +116,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     </br></br>
 
-    <h3>Please make sure each field is correctly entered before creating new user</h3>
+    <h3>Please make sure each field is correctly entered before creating new Employee Profile</h3>
 
-    <form action="account.php" method="POST">
+    <form action="create_employee.php" method="POST">
         
         <label>First Name:</label><br>
         <input type="text" name="first_name"><br><br>
 
+        <label>Last Name:</label><br>
+        <input type="text" name="last_name"><br><br>        
+
         <label>Email Address:</label><br>
         <input type="email" name="email"><br><br>
 
-        <label>User Role:</label><br>
+        <label>Employee Role:</label><br>
         <select name="role" id="role">
-           <option value="manager">Manager</option>
-           <option value="staff">Staff</option>
-           <option value="member">Member</option>
-           </select>
-           <br><br>
+            <option value="" disabled selected>-- Select a Role --</option>
+            <option value="Manager">Manager</option>
+            <option value="Staff">Staff</option>
+            <option value="Volunteer">Volunteer</option>
+            </select>
+            <br><br>
 
-        <button type="submit" class="submit-btn">Create New User</button>
+        <button type="submit" class="submit-btn">Create New Profile</button>
     </form>
     </br>
 </html>

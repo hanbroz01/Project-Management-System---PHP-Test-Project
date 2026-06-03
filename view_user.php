@@ -9,6 +9,7 @@
     <h2>Registered Members</h2>
     
     <a href="index.php" class="btn">Back to Dashboard</a>
+    <a href="create_employee.php" class="btn">Create Member Profile</a>
 
     <?php
     $file = 'members.json';
@@ -38,11 +39,14 @@
             echo "<td>" . htmlspecialchars($m['role']) . "</td>";
             echo "<td>";
             echo "<a href='edit_member.php?email=" . urlencode($m['email']) . "' class='btn-edit'>Edit</a>";
+            echo "<a href='delete_member.php?email=" . urlencode($m['email']) . "' class='btn-delete' onclick='return confirm(\"Are you sure you want to delete this user?\");'>Delete</a>";
             echo "</td>";
             echo "</tr>";
 
        
     }}
+
+var_dump($members);
     ?>
 
 </body>
