@@ -24,7 +24,7 @@ if (isset($_GET['email'])) {
 
         if ($user_found) {
             file_put_contents($file, json_encode($updated_members, JSON_PRETTY_PRINT));
-            $_SESSION['flash_message'] = "Successfully deleted Employee: " . htmlspecialchars($deleted_name) . " under email " . $email_to_delete;
+            $_SESSION['flash_message'] = "Successfully deleted Employee: " . htmlspecialchars($deleted_name) . " with email " . $email_to_delete;
         } else {
             $_SESSION['flash_message'] = "Error: User could not be found.";
         }

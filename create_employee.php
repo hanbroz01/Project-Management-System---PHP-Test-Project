@@ -91,10 +91,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // -------------------------------------
 
 
-        $_SESSION['flash_message'] = "Member Added: " . $member['first_name'] . " (" . $member['role'] . ")";
+        $_SESSION['flash_message'] = "Employee Added: " . $member['first_name'] . " " . $member['last_name'] . " (" . $member['role'] . ")";
             
        
-        header("Location: index.php");
+        header("Location: view_employee.php");
         exit();  
 }
 }
