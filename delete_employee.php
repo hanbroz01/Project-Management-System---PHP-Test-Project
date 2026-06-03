@@ -37,5 +37,5 @@ if (isset($_GET['email'])) {
 }
 
 
-header("Location: view_user.php");
+header("Location: view_employee.php");
 exit();

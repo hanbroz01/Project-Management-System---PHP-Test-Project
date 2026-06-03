@@ -53,9 +53,6 @@ $current_schedules = [];
 if (file_exists($schedules_file) && filesize($schedules_file) > 0) {
     $current_schedules = json_decode(file_get_contents($schedules_file), true);
 }
-
-var_dump($current_schedules);
-//var_dump($schedules_file);
  
 ?>
 

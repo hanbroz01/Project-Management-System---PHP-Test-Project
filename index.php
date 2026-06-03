@@ -25,7 +25,7 @@
       <button class="nav-btn">View Employee Schedules</button>
     </a>
 
-    <a href="view_user.php" class="nav-link">
+    <a href="view_employee.php" class="nav-link">
       <button class="nav-btn">View Employees</button>
     </a>
   </div>
