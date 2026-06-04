@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <html>
 <head>
     <title>Edit Employee</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="scheduling-app/public/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

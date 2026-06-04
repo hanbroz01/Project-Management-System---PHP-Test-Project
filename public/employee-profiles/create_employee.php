@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // DUPLICATE CHECK (Only run this if the user actually typed an email)
     if (!empty(trim($_POST['email']))) {
-        $file = 'employee_list.json';
+        $file = 'data/employee_list.json';
         $submitted_email = strtolower(trim($_POST['email'])); // Normalize email to lowercase
 
         // Open the file and look through existing members
@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $success = true;
 
         // --- 💾 SAVE TO JSON FILE 💾 ---
-        $file = 'employee_list.json';
+        $file = 'data/employee_list.json';
         
         // Read existing members if the file exists, otherwise start a fresh array
         if (file_exists($file) && filesize($file) > 0) {
@@ -105,15 +105,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <html>
 <head>
     <title>Create Profile</title>
-   <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../css/style.css">
     </head>
 <body>
 <h2>Create New Employee Profile</h2>
 
-    
+    <a href="../index.php" class="btn">Back to Dashboard</a> 
 
-    <a href="index.php" class="btn">Back to Dashboard</a> 
 <hr />
+
 <div class="create_menu">
     <form action="create_employee.php" method="POST">
         

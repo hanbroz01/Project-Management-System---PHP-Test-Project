@@ -1,11 +1,11 @@
-<?php session_start(); ?>
+<?php session_start();?>
 <!doctype html>
 <html>
 
 <head>
   <title>Employee Dashboard</title>
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../public/css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
@@ -17,15 +17,15 @@
 
   <hr />
   <div class="nav-main">
-    <a href="create_employee.php" class="nav-link">
+    <a href="../public/employee-profiles/create_employee.php" class="nav-link">
       <button class="nav-btn">Create New Employee Profile</button>
     </a>
 
-    <a href="schedule.php" class="nav-link">
+    <a href="../public/schedule/schedule.php" class="nav-link">
       <button class="nav-btn">View Employee Schedules</button>
     </a>
 
-    <a href="view_employee.php" class="nav-link">
+    <a href="../public/employee-profiles/view_employee.php" class="nav-link">
       <button class="nav-btn">View Employees</button>
     </a>
   </div>
