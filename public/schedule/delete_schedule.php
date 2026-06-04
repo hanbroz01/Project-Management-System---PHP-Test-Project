@@ -6,7 +6,7 @@ if (isset($_GET['email']) && isset($_GET['date'])) {
     $email_to_delete = urldecode($_GET['email']);
     $date_to_delete = urldecode($_GET['date']);
     
-    $file = 'schedules.json';
+    $file = '../../data/schedules.json';
 
     if (file_exists($file) && filesize($file) > 0) {
         $json_data = file_get_contents($file);
