@@ -5,38 +5,69 @@ body {
   background-color: #f9f9f9;
 }
 
-/* --- Login Page --- */
+/* --- Header Template--- */
+.logo-img {
+  height: 100px;
+  width: auto;
+  display: block;
+}
 
-.login-card {
-  max-width: 380px;
-  margin: 100px auto;
-  background: white;
-  padding: 40px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  text-align: center;
+.main-navigation {
+  background-color: #ffffff; /* Clean, crisp white background */
+  padding: 12px 24px; /* Breathable spacing on top/bottom and sides */
+  border-bottom: 1px solid #e2e8f0; /* Subtle divider line separating nav from dashboard */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Very light shadow for depth */
+  margin-bottom: 24px; /* Pushes the "Employee Management Dashboard" down neatly */
 }
-.login-card input {
-  width: 100%;
-  padding: 12px;
-  margin: 15px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+
+.nav-brand {
+  display: flex;
+  align-items: center; /* Vertically centers the text with the logo */
+  gap: 16px; /* Space between logo and text */
+}
+
+/* KEEPS LINK BLOCK-LEVEL FOR CLEAN ALIGNMENT */
+.brand-logo-link {
+  display: block;
+}
+
+.brand-name {
+  font-family: "Arial", sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: #46b4c1; /* Dark blue to match your logo colors */
+  letter-spacing: 0.5px;
+  cursor: default; /* Ensures the mouse pointer treats it like normal text */
+}
+
+.brand-sub {
+  font-size: 14px;
+  font-weight: 400;
+  color: #1e3a8a; /* Elegant slate gray */
+  margin-left: 8px;
+}
+
+.brand-text-wrapper {
+  display: flex;
+  align-items: center; /* This pushes the smaller text up so it floats exactly in the middle */
+  gap: 12px; /* Controls the horizontal space between the two chunks of text */
+}
+
+/* --- Footer Template --- */
+
+.dashboard-wrapper {
+  min-height: 85vh; /* 85% of the visible screen height */
   box-sizing: border-box;
+  padding: 0 24px;
 }
-.btn-login {
+
+/* This styles the footer cleanly right beneath it */
+.site-footer {
+  padding: 20px 0;
+  border-top: 1px solid #ddd;
+  text-align: center;
+  background-color: #fff;
   width: 100%;
-  padding: 12px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-}
-.btn-login:hover {
-  background-color: #0056b3;
 }
 
 /* --- Main Navigation Buttons  --- */

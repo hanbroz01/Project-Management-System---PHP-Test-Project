@@ -81,6 +81,7 @@ if (file_exists($schedules_file) && filesize($schedules_file) > 0) {
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 </head>
 <body>
+    <div class="dashboard-wrapper">
     <h2>Assign a New Shift</h2>
     <a href="../index.php" class="btn">Back to Dashboard</a>
     <hr />
@@ -250,5 +251,5 @@ if (file_exists($schedules_file) && filesize($schedules_file) > 0) {
         calendar.render();
     });
     </script>
-</body>
-</html>
+</div>
+<?php include '../templates/footer_template.php'; ?>

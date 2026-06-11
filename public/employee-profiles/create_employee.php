@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $errors[] = "Email Address is required.";
     }
 
-    if (empty(trim($_POST['role']))) {
+    if (empty(trim($_POST['role'] ?? ''))) {
         $errors[] = "User Role is required.";
     }
 
@@ -72,8 +72,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         $success = true;
 
-        // --- 💾 SAVE TO JSON FILE 💾 ---
-        $file = 'data/employee_list.json';
+        // Save to JSON File
+        $file = '../../data/employee_list.json';
         
         // Read existing members if the file exists, otherwise start a fresh array
         if (file_exists($file) && filesize($file) > 0) {
@@ -90,10 +90,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         file_put_contents($file, json_encode($members_array, JSON_PRETTY_PRINT));
         // -------------------------------------
 
-
         $_SESSION['flash_message'] = "Employee Added: " . $member['first_name'] . " " . $member['last_name'] . " (" . $member['role'] . ")";
             
-       
         header("Location: view_employee.php");
         exit();  
 }
@@ -108,6 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <link rel="stylesheet" href="../css/style.css">
     </head>
 <body>
+    <div class="dashboard-wrapper">
 <h2>Create New Employee Profile</h2>
 
     <a href="../index.php" class="btn">Back to Dashboard</a> 
@@ -137,5 +136,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <button type="submit" class="submit-btn">Create New Employee Profile</button>
     </form>
 </div>
+</div> <?php include '../templates/footer_template.php'; ?>
 </body>
 </html>

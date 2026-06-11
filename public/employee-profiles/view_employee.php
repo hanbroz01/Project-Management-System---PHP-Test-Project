@@ -10,16 +10,9 @@ session_start();
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            toastr.options = {
-                "positionClass": "toast-top-right",
-                "timeOut": "4000"
-            };
-        });
-    </script>
 </head>
 <body>
+    <div class="dashboard-wrapper">
 
     <h2>View Employee Profiles</h2>
     
@@ -58,12 +51,4 @@ session_start();
         
     } 
     ?>
-
-<script>
-        <?php if (isset($_SESSION['flash_message'])): ?>
-            toastr.success("<?php echo $_SESSION['flash_message']; ?>");
-            <?php unset($_SESSION['flash_message']); ?>
-        <?php endif; ?>
-    </script>
-</body>
-</html>
+</div> <?php include '../templates/footer_template.php'; ?>
