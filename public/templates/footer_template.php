@@ -1,5 +1,5 @@
 <footer class="site-footer">
-        <p>&copy; <?php echo date('Y'); ?> Employee Dashboard Management System. All Rights Reserved.</p>
+        <p>&copy; <?php echo date('Y'); ?> HR CORE - Employee Dashboard Management System. All Rights Reserved.</p>
     </footer>
 
     <?php if (isset($_SESSION['flash_message'])): ?>
