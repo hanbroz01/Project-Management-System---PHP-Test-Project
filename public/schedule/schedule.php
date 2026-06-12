@@ -70,18 +70,12 @@ $current_schedules = [];
 if (file_exists($schedules_file) && filesize($schedules_file) > 0) {
     $current_schedules = json_decode(file_get_contents($schedules_file), true);
 }
- 
+
+$page_title = "Employee Schedules";
+include __DIR__ . '/../templates/header_template.php';
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Employee Schedules</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
-</head>
-<body>
-    <div class="dashboard-wrapper">
+
     <h2>Assign a New Shift</h2>
     <a href="../index.php" class="btn">Back to Dashboard</a>
     <hr />

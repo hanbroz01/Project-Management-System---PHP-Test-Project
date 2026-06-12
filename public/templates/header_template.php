@@ -24,16 +24,30 @@ $base_path = (basename(dirname($_SERVER['PHP_SELF'])) == 'templates' || basename
 </head>
 <body>
     <nav class="main-navigation">
-    <div class="nav-brand">
-        <a href="<?php echo $base_path; ?>index.php" class="brand-logo-link">
-            <img src="<?php echo $base_path; ?>css/images/logo.png" alt="HR Core Logo" class="logo-img">
-        </a>
+        <div class="nav-brand">
+            <a href="<?php echo $base_path; ?>index.php" class="brand-logo-link">
+               <img src="<?php echo $base_path; ?>css/images/logo.png" alt="HR Core Logo" class="logo-img">
+            </a>
         
-        <div class="brand-text-wrapper">
-            <span class="brand-name">HR CORE</span>
-            <span class="brand-sub">Portals & Solutions</span>
+            <div class="brand-text-wrapper">
+               <span class="brand-name">HR CORE</span>
+               <span class="brand-sub">Portals & Solutions</span>
+            </div>
         </div>
-    </div>
-</nav>
 
-    <div class="dashboard-wrapper">
+        <section class="right-section">
+            <!-- Search Input Form -->
+            <form class="search-input-container" role="search">
+                <img src="<?php echo $base_path; ?>css/images/search.png" alt="search-logo" class="search-img">
+                <input class="search-input-field" type="text" placeholder="Search ... "/>
+            </form>
+
+            <!-- Login Button -->
+            <button class="login-btn">
+                <img src="<?php echo $base_path; ?>css/images/login.png" alt="login" class="login-img">
+                <span class="login-text">Login</span>
+            </button>
+        </section>
+    </nav>
+
+<div class="dashboard-wrapper">

@@ -1,18 +1,8 @@
-<?php
-session_start(); 
+<?php 
+// Chopose custome tab title for this specific page
+$page_title = "Employee Profiles"; 
+include __DIR__ . '/../templates/header_template.php'; 
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-   <title>View Employees</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-</head>
-<body>
-    <div class="dashboard-wrapper">
 
     <h2>View Employee Profiles</h2>
     
@@ -51,4 +41,4 @@ session_start();
         
     } 
     ?>
-</div> <?php include '../templates/footer_template.php'; ?>
+<?php include '../templates/footer_template.php'; ?>

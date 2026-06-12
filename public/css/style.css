@@ -13,44 +13,127 @@ body {
 }
 
 .main-navigation {
-  background-color: #ffffff; /* Clean, crisp white background */
-  padding: 12px 24px; /* Breathable spacing on top/bottom and sides */
-  border-bottom: 1px solid #e2e8f0; /* Subtle divider line separating nav from dashboard */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Very light shadow for depth */
-  margin-bottom: 24px; /* Pushes the "Employee Management Dashboard" down neatly */
+  background-color: #ffffff;
+  padding: 14px 32px;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .nav-brand {
   display: flex;
-  align-items: center; /* Vertically centers the text with the logo */
-  gap: 16px; /* Space between logo and text */
+  align-items: center;
+  gap: 16px;
 }
 
-/* KEEPS LINK BLOCK-LEVEL FOR CLEAN ALIGNMENT */
 .brand-logo-link {
   display: block;
 }
 
 .brand-name {
   font-family: "Arial", sans-serif;
-  font-size: 30px;
-  font-weight: 700;
-  color: #46b4c1; /* Dark blue to match your logo colors */
-  letter-spacing: 0.5px;
-  cursor: default; /* Ensures the mouse pointer treats it like normal text */
+  font-size: 24px;
+  font-weight: 800;
+  color: #46b4c1;
+  letter-spacing: -0.5px;
+  cursor: default;
+  line-height: 1;
 }
 
 .brand-sub {
-  font-size: 14px;
-  font-weight: 400;
-  color: #1e3a8a; /* Elegant slate gray */
-  margin-left: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #1e3a8a;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-left: 0;
 }
 
 .brand-text-wrapper {
   display: flex;
-  align-items: center; /* This pushes the smaller text up so it floats exactly in the middle */
-  gap: 12px; /* Controls the horizontal space between the two chunks of text */
+  align-items: center;
+  gap: 12px;
+}
+
+/* Right section */
+
+.right-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Search Box Container */
+.search-input-container {
+  display: flex;
+  align-items: center;
+  background-color: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 6px 14px;
+  gap: 10px;
+  height: 38px;
+  box-sizing: border-box;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.search-input-container:focus-within {
+  border-color: #46b4c1;
+  background-color: #ffffff;
+}
+
+.search-img {
+  height: 16px;
+  width: 16px;
+  opacity: 0.6;
+}
+
+.search-input-field {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 14px;
+  color: #334155;
+  width: 200px;
+  height: 100%;
+}
+
+/* Premium Login Button */
+.login-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #1e3a8a;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 0 18px;
+  height: 38px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
+}
+
+.login-btn:hover {
+  background-color: #152a66;
+}
+
+.login-btn:active {
+  transform: scale(0.98);
+}
+
+.login-img {
+  height: 16px;
+  width: auto;
+  filter: invert(1); /* Forces icon to white */
 }
 
 /* --- Footer Template --- */
@@ -61,7 +144,6 @@ body {
   padding: 0 24px;
 }
 
-/* This styles the footer cleanly right beneath it */
 .site-footer {
   padding: 20px 0;
   border-top: 1px solid #ddd;

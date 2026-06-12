@@ -97,16 +97,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 }
 
+$page_title = "Create Employee profile";
+include __DIR__ . '/../templates/header_template.php';
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Create Profile</title>
-    <link rel="stylesheet" href="../css/style.css">
-    </head>
-<body>
-    <div class="dashboard-wrapper">
 <h2>Create New Employee Profile</h2>
 
     <a href="../index.php" class="btn">Back to Dashboard</a> 
@@ -137,5 +131,3 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </form>
 </div>
 </div> <?php include '../templates/footer_template.php'; ?>
-</body>
-</html>

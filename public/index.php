@@ -1,7 +1,7 @@
 <?php 
 // Chopose custome tab title for this specific page
 $page_title = "Employee Dashboard"; 
-include 'templates/header_template.php'; 
+include __DIR__ . '/templates/header_template.php'; 
 ?>
 
   <h1>Welcome to your Dashboard</h1>
