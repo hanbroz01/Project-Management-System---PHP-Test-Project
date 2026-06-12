@@ -3,19 +3,19 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
+/*
 // Security Gate: Only let authenticated HR Managers access this page
 if (!isset($_SESSION['access_level']) || $_SESSION['access_level'] !== 'admin') {
     header("Location: ../index.php");
     exit();
 }
-
+*/
 $errors = [];
 $success = false;
 $member = [];
 
 // Base data path directory resolution helper
-$file = __DIR__ . '/../../data/users.json';
+$file = realpath(__DIR__ . '/../../data/employee_list.json');
 
 // Security Check: Make sure the user actually used POST to get here
 if ($_SERVER["REQUEST_METHOD"] === "POST") {

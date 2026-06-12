@@ -1,1 +1,11 @@
-[]
+[
+    {
+        "id": "USR001",
+        "email": "hanbrozinski@gmail.com",
+        "password": "$2y$10$V\/s\/N7GCG8WjiiqApEjRp.nVvJWCRyHBSVgFofwrniUZMQLXKKfQi",
+        "first_name": "Han",
+        "last_name": "Brozinski",
+        "role": "Manager",
+        "access_level": "admin"
+    }
+]

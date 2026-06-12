@@ -5,6 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Automatically detect if the page is in a subfolder of the root
+$current_dir = basename(dirname($_SERVER['PHP_SELF']));
 $base_path = (basename(dirname($_SERVER['PHP_SELF'])) == 'templates' || basename(dirname($_SERVER['PHP_SELF'])) == 'schedule' || basename(dirname($_SERVER['PHP_SELF'])) == 'employee-profiles') ? '../' : '';
 ?>
 
@@ -43,10 +44,28 @@ $base_path = (basename(dirname($_SERVER['PHP_SELF'])) == 'templates' || basename
             </form>
 
             <!-- Login Button -->
-            <button class="login-btn">
-                <img src="<?php echo $base_path; ?>css/images/login.png" alt="login" class="login-img">
-                <span class="login-text">Login</span>
-            </button>
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <div class="user-badge-container">
+                    <div class="user-meta">
+                        <span class="user-greeting">
+                            Hi, <?php echo htmlspecialchars($_SESSION['first_name']); ?>
+                        </span>
+                        <span class="user-role">
+                            <?php echo htmlspecialchars($_SESSION['role']); ?>
+                        </span>
+                    </div>
+                    
+                    <a href="<?php echo $base_path; ?>logout.php" class="login-btn logout-btn">
+                        <img src="<?php echo $base_path; ?>css/images/login.png" alt="logout" class="login-img logout-img">
+                        <span class="login-text">Logout</span>
+                    </a>
+                </div>
+            <?php else: ?>
+                <a href="<?php echo $base_path; ?>login.php" class="login-btn">
+                    <img src="<?php echo $base_path; ?>css/images/login.png" alt="login" class="login-img">
+                    <span class="login-text">Login</span>
+                </a>
+            <?php endif; ?>
         </section>
     </nav>
 
