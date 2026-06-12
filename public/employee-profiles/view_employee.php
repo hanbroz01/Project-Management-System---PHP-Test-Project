@@ -1,5 +1,15 @@
 <?php 
-// Chopose custome tab title for this specific page
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Security Gate: Only let authenticated HR Managers view this management directory
+if (!isset($_SESSION['access_level']) || $_SESSION['access_level'] !== 'admin') {
+    header("Location: ../index.php");
+    exit();
+}
+
+// Choose custom tab title for this specific page
 $page_title = "Employee Profiles"; 
 include __DIR__ . '/../templates/header_template.php'; 
 ?>
@@ -10,7 +20,7 @@ include __DIR__ . '/../templates/header_template.php';
     <a href="create_employee.php" class="btn">Create New Employee Profile</a>
 <hr />
     <?php
-    $file = '../../data/employee_list.json'; 
+    $file = __DIR__ . '/../../data/users.json'; 
 
     if (file_exists($file) && filesize($file) > 0) {
         
@@ -41,5 +51,5 @@ include __DIR__ . '/../templates/header_template.php';
         
     } 
     ?>
- </div>
+    </div>
 <?php include '../templates/footer_template.php'; ?>
