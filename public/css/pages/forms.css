@@ -1,0 +1,43 @@
+/* --- Dashboard Quick Menu Sidebar Block --- */
+.nav-main {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 300px;
+  margin: 20px 0;
+  background-color: #c5e8f4;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.nav-link {
+  width: 100%;
+  text-decoration: none;
+}
+
+.nav-btn {
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 16px;
+  background-color: #12bbf4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.nav-btn:hover {
+  background-color: #5a6268;
+}
+
+/* --- Form Box Blocks --- */
+.create_menu {
+  max-width: 450px;
+  background-color: #c5e8f4;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}

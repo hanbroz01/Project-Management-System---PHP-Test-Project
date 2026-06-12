@@ -1,0 +1,127 @@
+/* --- Header Navigation Template --- */
+.logo-img {
+  height: 100px;
+  width: auto;
+  display: block;
+}
+
+.main-navigation {
+  background-color: #ffffff;
+  padding: 14px 32px;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.brand-logo-link {
+  display: block;
+}
+
+.brand-name {
+  font-family: "Arial", sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  color: #46b4c1;
+  letter-spacing: -0.5px;
+  cursor: default;
+  line-height: 1;
+}
+
+.brand-sub {
+  font-size: 11px;
+  font-weight: 600;
+  color: #1e3a8a;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-left: 0;
+}
+
+.brand-text-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* --- Right Section Utilities --- */
+.right-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.search-input-container {
+  display: flex;
+  align-items: center;
+  background-color: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 6px 14px;
+  gap: 10px;
+  height: 38px;
+  box-sizing: border-box;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.search-input-container:focus-within {
+  border-color: #46b4c1;
+  background-color: #ffffff;
+}
+
+.search-img {
+  height: 16px;
+  width: 16px;
+  opacity: 0.6;
+}
+
+.search-input-field {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 14px;
+  color: #334155;
+  width: 200px;
+  height: 100%;
+}
+
+.login-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #1e3a8a;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 0 18px;
+  height: 38px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
+}
+
+.login-btn:hover {
+  background-color: #152a66;
+}
+
+.login-btn:active {
+  transform: scale(0.98);
+}
+
+.login-img {
+  height: 16px;
+  width: auto;
+  filter: invert(1);
+}

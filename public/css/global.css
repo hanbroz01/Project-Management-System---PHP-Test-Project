@@ -1,0 +1,21 @@
+/* --- Global Styles & Typography --- */
+body {
+  font-family: Arial, sans-serif;
+  margin: 40px;
+  background-color: #f9f9f9;
+}
+
+h3 {
+  color: red;
+}
+
+/* --- Toastr Popup Styles --- */
+#toast-container > .toast-success {
+  background-color: #4a90e2 !important;
+  color: #ffffff !important;
+}
+
+#toast-container > .toast-success .toast-progress {
+  background-color: #ffffff !important;
+  opacity: 0.4;
+}
