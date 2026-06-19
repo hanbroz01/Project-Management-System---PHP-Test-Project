@@ -5,8 +5,10 @@ body {
   background-color: #f9f9f9;
 }
 
-h3 {
-  color: red;
+.dashboard-wrapper {
+  min-height: 85vh;
+  box-sizing: border-box;
+  padding: 0 24px;
 }
 
 /* --- Toastr Popup Styles --- */
