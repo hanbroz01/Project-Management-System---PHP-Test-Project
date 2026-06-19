@@ -31,13 +31,3 @@
 .nav-btn:hover {
   background-color: #5a6268;
 }
-
-/* --- Form Box Blocks --- */
-.create_menu {
-  max-width: 450px;
-  background-color: #c5e8f4;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  font-family: Arial, sans-serif;
-}

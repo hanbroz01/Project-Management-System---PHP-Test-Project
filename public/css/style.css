@@ -14,5 +14,6 @@
 @import url("components/tables.css");
 
 /* 4. Isolated Page Feature Rules */
-@import url("pages/forms.css");
 @import url("pages/schedule.css");
+@import url("pages/create_employee.css");
+@import url("pages/dashboard.css");
