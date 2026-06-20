@@ -1,0 +1,220 @@
+/* ==========================================================================
+   GLOBAL APP LAYOUT SYSTEM
+   ========================================================================== */
+
+/* The master flex container that handles side-by-side positioning */
+.app-wrapper {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f4f7f6; /* Soft professional backdrop for the workspace */
+}
+
+/* ==========================================================================
+   TOP WHITE HEADER BAR STYLES
+   ========================================================================== */
+.main-navigation {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: calc(
+    100% - 260px
+  ); /* Locks header completely to the right workspace */
+
+  background-color: #ffffff;
+  border-bottom: 1px solid #eef2f5;
+  z-index: 200; /* Keeps it above the sidebar panel layer */
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+
+  padding: 14px 32px;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  margin-bottom: 24px;
+
+  justify-content: space-between;
+
+  position: fixed;
+}
+
+/* ==========================================================================
+   FIXED LEFT SIDEBAR NAVIGATION STYLES
+   ========================================================================== */
+.sidebar {
+  width: 260px;
+  height: 100vh; /* Spans all the way from top to bottom viewport */
+  background-color: #1a428a; /* Clean corporate navy blue */
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  position: fixed; /* Anchors locked to the screen frame */
+  left: 0;
+  top: 0;
+  box-sizing: border-box;
+  padding: 24px 0;
+  z-index: 150; /* Layer underneath top bar dropdowns */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 1. Top Branding/Logo Area (MATCHED TO YOUR HTML) */
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 24px 24px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.brand-icon {
+  font-size: 28px;
+  color: #00bfd8; /* Bright teal accent color for the logo */
+}
+
+.brand-text h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.brand-text span {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  display: block;
+  margin-top: 2px;
+}
+
+/* 2. Menu Links System */
+.sidebar-menu {
+  flex-grow: 1; /* Forces menu to scale up, pushing footer down */
+  padding-top: 24px;
+}
+
+.sidebar-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-menu li.menu-item {
+  margin: 4px 0;
+}
+
+.sidebar-menu li.menu-item a {
+  display: flex;
+  align-items: center;
+  padding: 12px 24px;
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+/* Icon block alignment footprint */
+.sidebar-menu li.menu-item a i {
+  width: 30px;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.5);
+  transition: all 0.2s ease;
+}
+
+/* Menu Hover Properties */
+.sidebar-menu li.menu-item a:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.sidebar-menu li.menu-item a:hover i {
+  color: #ffffff;
+}
+
+/* Menu Active Page State (e.g. Dashboard Tab highlight) */
+.sidebar-menu li.menu-item.active {
+  background-color: rgba(255, 255, 255, 0.12);
+  border-left: 4px solid #00bfd8; /* Distinct left border strip */
+}
+
+.sidebar-menu li.menu-item.active a {
+  color: #ffffff;
+  font-weight: 600;
+  padding-left: 20px; /* Offsets padding to absorb the 4px border split */
+}
+
+.sidebar-menu li.menu-item.active i {
+  color: #00bfd8; /* Bright teal icon highlight matching theme */
+}
+
+/* 3. Bottom User Profile Area Footer (MATCHED TO YOUR HTML) */
+.sidebar-footer {
+  padding: 16px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: rgba(0, 0, 0, 0.15); /* Shaded floor container base */
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: #00bfd8;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.username {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #ffffff;
+}
+
+.user-role {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ==========================================================================
+   MAIN DASHBOARD WORKSPACE PANELS STYLES
+   ========================================================================== */
+.main-content {
+  margin-left: 260px; /* CRITICAL SHIFT: Pushes text and grid clear of sidebar layout block */
+  padding: 40px;
+  padding-top: 110px; /* 70px to completely clear top navbar + 40px interior margin spacing */
+  width: calc(
+    100% - 260px
+  ); /* Forces content workspace to snap tightly to right boundary */
+  box-sizing: border-box;
+  display: block;
+}
+
+/* Resizes and positions your original image logo inside the sidebar header */
+.brand-logo-wrapper {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-logo-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  /* If your logo image has dark text or needs contrast against the dark blue sidebar, 
+     this line safely makes it pop out in clean white like the mockup text! */
+  filter: brightness(0) invert(1);
+}

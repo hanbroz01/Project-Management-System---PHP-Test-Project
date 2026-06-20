@@ -11,28 +11,30 @@ $base_path = (basename(dirname($_SERVER['PHP_SELF'])) == 'templates' || basename
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($page_title) ? $page_title : "Employee Portal"; ?></title>
-    
+
     <link rel="stylesheet" href="<?php echo $base_path; ?>css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 </head>
+
 <body>
     <nav class="main-navigation">
         <div class="nav-brand">
             <a href="<?php echo $base_path; ?>index.php" class="brand-logo-link">
-               <img src="<?php echo $base_path; ?>css/images/logo.png" alt="HR Core Logo" class="logo-img">
+                <img src="<?php echo $base_path; ?>css/images/logo.png" alt="HR Core Logo" class="logo-img">
             </a>
-        
+
             <div class="brand-text-wrapper">
-               <span class="brand-name">HR CORE</span>
-               <span class="brand-sub">Portals & Solutions</span>
+                <span class="brand-name">HR CORE</span>
+                <span class="brand-sub">Portals & Solutions</span>
             </div>
         </div>
 
@@ -40,7 +42,7 @@ $base_path = (basename(dirname($_SERVER['PHP_SELF'])) == 'templates' || basename
             <!-- Search Input Form -->
             <form class="search-input-container" role="search">
                 <img src="<?php echo $base_path; ?>css/images/search.png" alt="search-logo" class="search-img">
-                <input class="search-input-field" type="text" placeholder="Search ... "/>
+                <input class="search-input-field" type="text" placeholder="Search ... " />
             </form>
 
             <!-- Login Button -->
@@ -54,7 +56,7 @@ $base_path = (basename(dirname($_SERVER['PHP_SELF'])) == 'templates' || basename
                             <?php echo htmlspecialchars($_SESSION['role']); ?>
                         </span>
                     </div>
-                    
+
                     <a href="<?php echo $base_path; ?>logout.php" class="login-btn logout-btn">
                         <img src="<?php echo $base_path; ?>css/images/login.png" alt="logout" class="login-img logout-img">
                         <span class="login-text">Logout</span>
@@ -68,5 +70,4 @@ $base_path = (basename(dirname($_SERVER['PHP_SELF'])) == 'templates' || basename
             <?php endif; ?>
         </section>
     </nav>
-
-<div class="dashboard-wrapper">
+    <div class="dashboard-wrapper">

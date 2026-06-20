@@ -9,6 +9,7 @@
 /* 2. Structural Component Fragments */
 @import url("components/header.css");
 @import url("components/footer.css");
+@import url("components/sidebar.css");
 
 /* 3. Global Feature Elements */
 @import url("components/tables.css");
