@@ -27,15 +27,10 @@ $base_path = (basename(dirname($_SERVER['PHP_SELF'])) == 'templates' || basename
 
 <body>
     <nav class="main-navigation">
-        <div class="nav-brand">
-            <a href="<?php echo $base_path; ?>index.php" class="brand-logo-link">
-                <img src="<?php echo $base_path; ?>css/images/logo.png" alt="HR Core Logo" class="logo-img">
-            </a>
-
-            <div class="brand-text-wrapper">
-                <span class="brand-name">HR CORE</span>
-                <span class="brand-sub">Portals & Solutions</span>
-            </div>
+        <div class="header-breadcrumb">
+            <span class="breadcrumb-root">CHANGE</span>
+            <i class="fa-solid fa-chevron-right breadcrumb-separator"></i>
+            <span class="breadcrumb-current"><?php echo isset($page_title) ? $page_title : "Dashboard"; ?></span>
         </div>
 
         <section class="right-section">

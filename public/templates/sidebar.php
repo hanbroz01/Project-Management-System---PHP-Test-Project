@@ -1,8 +1,21 @@
+<?php
+// Start Session automatically in the header 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Automatically detect if the page is in a subfolder of the root
+$current_dir = basename(dirname($_SERVER['PHP_SELF']));
+$base_path = (basename(dirname($_SERVER['PHP_SELF'])) == 'templates' || basename(dirname($_SERVER['PHP_SELF'])) == 'schedule' || basename(dirname($_SERVER['PHP_SELF'])) == 'employee-profiles') ? '../' : '';
+?>
+
 <aside class="sidebar">
 
     <div class="sidebar-brand">
         <div class="brand-logo-wrapper">
-            <img src="<?php echo $base_path; ?>css/images/logo.png" alt="HR Core Logo" class="sidebar-logo-img">
+            <a href="<?php echo $base_path; ?>index.php" class="brand-logo-link">
+                <img src="<?php echo $base_path; ?>css/images/logo.png" alt="HR Core Logo" class="sidebar-logo-img">
+            </a>
         </div>
         <div class="brand-text">
             <h2>HR CORE</h2>

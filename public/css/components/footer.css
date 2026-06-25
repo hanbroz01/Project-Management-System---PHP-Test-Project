@@ -1,9 +1,13 @@
 /* --- Footer Template --- */
 
 .site-footer {
-  padding: 20px 0;
-  border-top: 1px solid #ddd;
-  text-align: center;
-  background-color: #fff;
+  /* Tells the footer to automatically push itself to the very bottom of the flex column */
+  margin-top: auto;
+
+  padding-top: 40px; /* Leaves an elegant breathing gap between content and copyright */
+  padding-bottom: 20px;
+  border-top: 1px solid #eef2f5;
+  color: #888888;
+  font-size: 0.85rem;
   width: 100%;
 }

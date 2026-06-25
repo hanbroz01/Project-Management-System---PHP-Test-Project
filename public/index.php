@@ -10,11 +10,11 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 // Choose custom tab title for this specific page
-$page_title = "Employee Dashboard";
-include __DIR__ . '/templates/sidebar.php';
+$page_title = "Dashboard";
 include __DIR__ . '/templates/header_template.php';
-
+include __DIR__ . '/templates/sidebar.php';
 ?>
+
 <main class="main-content">
   <div class="dash-top">
     <h1>Welcome to your Dashboard, <?php echo htmlspecialchars($_SESSION['first_name']); ?>!</h1>
