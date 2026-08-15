@@ -16,33 +16,36 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (!empty($employee_email) && !empty($shift_date) && !empty($shift_time)) {
         $schedules_file = '../../data/schedules.json';
-        
+
         if (file_exists($schedules_file) && filesize($schedules_file) > 0) {
             $schedules = json_decode(file_get_contents($schedules_file), true);
         } else {
             $schedules = [];
         }
 
-        $first_name = "Unknown"; 
+        $first_name = "Unknown";
         foreach ($employees as $emp) {
             if ($emp['email'] === $employee_email) {
                 $first_name = $emp['first_name'];
-                break; 
+                break;
             }
         }
 
         if ($shift_time === 'CUSTOM') {
-            $start_clock = $_POST['custom_start']; 
-            $end_clock = $_POST['custom_end'];    
+            $start_clock = $_POST['custom_start'];
+            $end_clock = $_POST['custom_end'];
             $display_time = "Custom Shift ($start_clock - $end_clock)";
         } else {
             $display_time = $shift_time;
             if (strpos($shift_time, 'Morning') !== false) {
-                $start_clock = '08:00'; $end_clock = '16:00';
+                $start_clock = '08:00';
+                $end_clock = '16:00';
             } elseif (strpos($shift_time, 'Evening') !== false) {
-                $start_clock = '16:00'; $end_clock = '00:00';
+                $start_clock = '16:00';
+                $end_clock = '00:00';
             } else {
-                $start_clock = '00:00'; $end_clock = '08:00';
+                $start_clock = '00:00';
+                $end_clock = '08:00';
             }
         }
 
@@ -51,13 +54,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             "first_name" => htmlspecialchars($first_name),
             "email" => htmlspecialchars($employee_email),
             "date" => htmlspecialchars($shift_date),
-            "shift_time" => htmlspecialchars($display_time), 
+            "shift_time" => htmlspecialchars($display_time),
             "start_clock" => htmlspecialchars($start_clock), // For FullCalendar mapping
             "end_clock" => htmlspecialchars($end_clock)      // For FullCalendar mapping
         ];
 
         file_put_contents($schedules_file, json_encode($schedules, JSON_PRETTY_PRINT));
-        
+
         $_SESSION['flash_message'] = "Shift successfully assigned!";
         header("Location: schedule.php");
         exit();
@@ -75,7 +78,7 @@ $page_title = "Employee Schedules";
 include __DIR__ . '/../templates/header_template.php';
 ?>
 
-
+<div class="dashboard-wrapper">
     <h2>Assign a New Shift</h2>
     <a href="../index.php" class="btn">Back to Dashboard</a>
     <hr />
@@ -114,26 +117,26 @@ include __DIR__ . '/../templates/header_template.php';
                 <small>End Time</small><br>
                 <input type="time" name="custom_end" id="custom_end">
             </div>
-        </div>            
+        </div>
         <button type="submit" class="submit-btn">Assign Shift</button>
     </form>
-<script>
-    function toggleCustomTimeFields() {
-        var selectField = document.getElementById('shift_time_select');
-        var customContainer = document.getElementById('custom_time_container');
-        var startInput = document.getElementById('custom_start');
-        var endInput = document.getElementById('custom_end');
+    <script>
+        function toggleCustomTimeFields() {
+            var selectField = document.getElementById('shift_time_select');
+            var customContainer = document.getElementById('custom_time_container');
+            var startInput = document.getElementById('custom_start');
+            var endInput = document.getElementById('custom_end');
 
-        if (selectField.value === 'CUSTOM') {
-            customContainer.style.display = 'flex';
-            startInput.required = true;
-            endInput.required = true;
-        } else {
-            customContainer.style.display = 'none';
-            startInput.required = false;
-            endInput.required = false;
+            if (selectField.value === 'CUSTOM') {
+                customContainer.style.display = 'flex';
+                startInput.required = true;
+                endInput.required = true;
+            } else {
+                customContainer.style.display = 'none';
+                startInput.required = false;
+                endInput.required = false;
+            }
         }
-    }
     </script>
     <hr>
 
@@ -150,7 +153,9 @@ include __DIR__ . '/../templates/header_template.php';
         </thead>
         <tbody>
             <?php if (empty($current_schedules)): ?>
-                <tr><td colspan="5">No shifts assigned yet.</td></tr>
+                <tr>
+                    <td colspan="5">No shifts assigned yet.</td>
+                </tr>
             <?php else: ?>
                 <?php foreach ($current_schedules as $shift): ?>
                     <tr>
@@ -160,90 +165,92 @@ include __DIR__ . '/../templates/header_template.php';
                         <td><?php echo htmlspecialchars($shift['shift_time']); ?></td>
                         <td>
                             <a href="edit_schedule.php?email=<?php echo urlencode($shift['email']); ?>" class="btn-edit">Edit</a>
-                            <a href="delete_schedule.php?email=<?php echo urlencode($shift['email']); ?>&date=<?php echo urlencode($shift['date']); ?>" 
-                            class="btn-delete" 
-                            onclick="return confirm('Are you sure you want to delete this specific shift?');">
-                            Delete
+                            <a href="delete_schedule.php?email=<?php echo urlencode($shift['email']); ?>&date=<?php echo urlencode($shift['date']); ?>"
+                                class="btn-delete"
+                                onclick="return confirm('Are you sure you want to delete this specific shift?');">
+                                Delete
                             </a>
                         </td>
-            
-                </tr><?php endforeach; ?>
+
+                    </tr><?php endforeach; ?>
             <?php endif; ?>
         </tbody>
     </table>
     <br>
     <hr>
     <h2>Roster Calendar View</h2>
-    <div id="calendar"></div>         
+    <div id="calendar"></div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
 
-        // Let PHP assemble the data cleanly without breaking editor scripts
-        <?php
-        $jsEvents = [];
-        foreach ($current_schedules as $shift) {
-            // 1. Extract saved clock times (fall back to defaults if parsing old files)
-            $start_time = isset($shift['start_clock']) ? $shift['start_clock'] . ':00' : '08:00:00';
-            $end_time = isset($shift['end_clock']) ? $shift['end_clock'] . ':00' : '16:00:00';
+            // Let PHP assemble the data cleanly without breaking editor scripts
+            <?php
+            $jsEvents = [];
+            foreach ($current_schedules as $shift) {
+                // 1. Extract saved clock times (fall back to defaults if parsing old files)
+                $start_time = isset($shift['start_clock']) ? $shift['start_clock'] . ':00' : '08:00:00';
+                $end_time = isset($shift['end_clock']) ? $shift['end_clock'] . ':00' : '16:00:00';
 
-            // 2. Intelligently color code templates vs custom configurations
-            $className = 'shift-custom'; // Default color class for completely custom hours
-            if (strpos($shift['shift_time'], 'Morning') !== false) {
-                $className = 'shift-morning';
-            } elseif (strpos($shift['shift_time'], 'Evening') !== false) {
-                $className = 'shift-evening';
-            } elseif (strpos($shift['shift_time'], 'Night') !== false) {
-                $className = 'shift-night';
-            }
-
-            // 3. Handle overnight shifts crossing midnight (e.g., 22:00 to 06:00)
-            $end_date = $shift['date'];
-            if (strtotime($end_time) <= strtotime($start_time)) {
-                $end_date = date('Y-m-d', strtotime($shift['date'] . ' +1 day'));
-            }
-
-            $fullDescription = $shift['first_name'] . " - " . $shift['shift_time'];
-
-            $jsEvents[] = [
-                'title' => $shift['first_name'] . " ( " . $start_time . " - " . $end_time . " ) ", // Keeps the cell view looking clean
-                'start' => $shift['date'] . 'T' . $start_time,
-                'end' => $end_date . 'T' . $end_time,
-                'className' => $className,
-                'description' => $fullDescription 
-            ];
-        }
-        ?>
-
-        var rosterEvents = <?php echo json_encode($jsEvents); ?>;
-
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            allDaySlot: false, // Prevents custom shifts from getting stuck at the top
-            displayEventTime: false,
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek'
-            },
-            buttonText: {
-                today: 'Today',
-                month: 'Month',
-                week: 'Week'
-            },
-            events: rosterEvents,
-            eventDidMount: function(info) {
-                if (info.event.extendedProps.description) {
-                    // Attaches a system title string to the element container for hover cards
-                    info.el.setAttribute('data-tooltip', info.event.extendedProps.description);
+                // 2. Intelligently color code templates vs custom configurations
+                $className = 'shift-custom'; // Default color class for completely custom hours
+                if (strpos($shift['shift_time'], 'Morning') !== false) {
+                    $className = 'shift-morning';
+                } elseif (strpos($shift['shift_time'], 'Evening') !== false) {
+                    $className = 'shift-evening';
+                } elseif (strpos($shift['shift_time'], 'Night') !== false) {
+                    $className = 'shift-night';
                 }
+
+                // 3. Handle overnight shifts crossing midnight (e.g., 22:00 to 06:00)
+                $end_date = $shift['date'];
+                if (strtotime($end_time) <= strtotime($start_time)) {
+                    $end_date = date('Y-m-d', strtotime($shift['date'] . ' +1 day'));
+                }
+
+                $fullDescription = $shift['first_name'] . " - " . $shift['shift_time'];
+
+                $jsEvents[] = [
+                    'title' => $shift['first_name'] . " ( " . $start_time . " - " . $end_time . " ) ", // Keeps the cell view looking clean
+                    'start' => $shift['date'] . 'T' . $start_time,
+                    'end' => $end_date . 'T' . $end_time,
+                    'className' => $className,
+                    'description' => $fullDescription
+                ];
             }
+            ?>
 
+            var rosterEvents = <?php echo json_encode($jsEvents); ?>;
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                allDaySlot: false, // Prevents custom shifts from getting stuck at the top
+                displayEventTime: false,
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek'
+                },
+                buttonText: {
+                    today: 'Today',
+                    month: 'Month',
+                    week: 'Week'
+                },
+                events: rosterEvents,
+                eventDidMount: function(info) {
+                    if (info.event.extendedProps.description) {
+                        // Attaches a system title string to the element container for hover cards
+                        info.el.setAttribute('data-tooltip', info.event.extendedProps.description);
+                    }
+                }
+
+            });
+
+            calendar.render();
         });
-
-        calendar.render();
-    });
     </script>
 </div>
-<?php include '../templates/footer_template.php'; ?>
+</div>
+<!-- Include footer template (navigating up from subfolder) -->
+<?php include __DIR__ . '/../templates/footer_template.php'; ?>

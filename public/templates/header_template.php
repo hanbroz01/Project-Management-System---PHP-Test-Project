@@ -27,42 +27,45 @@ $base_path = (basename(dirname($_SERVER['PHP_SELF'])) == 'templates' || basename
 
 <body>
     <nav class="main-navigation">
-        <div class="header-breadcrumb">
-            <span class="breadcrumb-root">CHANGE</span>
-            <i class="fa-solid fa-chevron-right breadcrumb-separator"></i>
-            <span class="breadcrumb-current"><?php echo isset($page_title) ? $page_title : "Dashboard"; ?></span>
-        </div>
-
-        <section class="right-section">
-            <!-- Search Input Form -->
-            <form class="search-input-container" role="search">
-                <img src="<?php echo $base_path; ?>css/images/search.png" alt="search-logo" class="search-img">
-                <input class="search-input-field" type="text" placeholder="Search ... " />
-            </form>
-
-            <!-- Login Button -->
-            <?php if (isset($_SESSION['user_id'])): ?>
-                <div class="user-badge-container">
-                    <div class="user-meta">
-                        <span class="user-greeting">
-                            Hi, <?php echo htmlspecialchars($_SESSION['first_name']); ?>
-                        </span>
-                        <span class="user-role">
-                            <?php echo htmlspecialchars($_SESSION['role']); ?>
-                        </span>
-                    </div>
-
-                    <a href="<?php echo $base_path; ?>logout.php" class="login-btn logout-btn">
-                        <img src="<?php echo $base_path; ?>css/images/login.png" alt="logout" class="login-img logout-img">
-                        <span class="login-text">Logout</span>
-                    </a>
+        <!-- Current Logged In User Information -->
+        <?php if (isset($_SESSION['user_id'])): ?>
+            <div class="user-badge-container">
+                <div class="user-meta">
+                    <span class="user-greeting">
+                        Hi, <?php echo htmlspecialchars($_SESSION['first_name']); ?>!
+                    </span>
+                    <span class="company-level">
+                        Company Level: <?php echo isset($_SESSION['role']) ? htmlspecialchars($_SESSION['role']) : 'Employee'; ?>
+                    </span>
                 </div>
+            </div>
+
+            <section class="right-section">
+                <!-- Search Input Form -->
+                <form class="search-input-container" role="search">
+                    <img src="<?php echo $base_path; ?>css/images/search.png" alt="search-logo" class="search-img">
+                    <input class="search-input-field" type="text" placeholder="Search ... " />
+                </form>
+
+                <!-- Change Password Button -->
+                <?php
+                $password_link = ($base_path === '../') ? 'change_password.php' : 'employee-profiles/change_password.php';
+                ?>
+                <a href="<?php echo $password_link; ?>" class="login-btn" style="margin-right: 8px;">
+                    <span class="login-text">Change Password</span>
+                </a>
+
+                <!-- Logout Button -->
+                <a href="<?php echo $base_path; ?>logout.php" class="login-btn logout-btn">
+                    <img src="<?php echo $base_path; ?>css/images/login.png" alt="logout" class="login-img logout-img">
+                    <span class="login-text">Logout</span>
+                </a>
+
             <?php else: ?>
                 <a href="<?php echo $base_path; ?>login.php" class="login-btn">
                     <img src="<?php echo $base_path; ?>css/images/login.png" alt="login" class="login-img">
                     <span class="login-text">Login</span>
                 </a>
             <?php endif; ?>
-        </section>
+            </section>
     </nav>
-    <div class="dashboard-wrapper">

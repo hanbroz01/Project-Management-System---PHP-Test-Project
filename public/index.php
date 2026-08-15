@@ -14,8 +14,8 @@ $page_title = "Dashboard";
 include __DIR__ . '/templates/header_template.php';
 include __DIR__ . '/templates/sidebar.php';
 ?>
+<div class="dashboard-wrapper">
 
-<main class="main-content">
   <div class="dash-top">
     <h1>Welcome to your Dashboard, <?php echo htmlspecialchars($_SESSION['first_name']); ?>!</h1>
     <div class="date-info">
@@ -78,6 +78,7 @@ include __DIR__ . '/templates/sidebar.php';
 
     </div>
   </div>
-  </div>
-</main>
+
+
+</div>
 <?php include 'templates/footer_template.php'; ?>
