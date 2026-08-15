@@ -1,27 +1,35 @@
 <?php
-
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-/*
-// Security Gate: Only let authenticated HR Managers access this page
-if (!isset($_SESSION['access_level']) || $_SESSION['access_level'] !== 'admin') {
+
+// Security Gate: Only let authenticated HR Managers/Admins access this page
+if (!isset($_SESSION['access_level']) || $_SESSION['access_level'] !== 'Admin') {
     header("Location: ../index.php");
     exit();
 }
-*/
-$errors = [];
-$success = false;
-$member = [];
 
-// Base data path directory resolution helper
-$file = realpath(__DIR__ . '/../../data/employee_list.json');
+$errors = [];
+
+// Database connection details
+$host = 'mariadb';
+$db   = 'db_data_test';
+$user = 'user';
+$pass = 'password';
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    ]);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
 
 // Security Check: Make sure the user actually used POST to get here
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // Check each field using empty() and trim()
-    // trim() removes accidental spaces (like if a user just presses the spacebar)
     if (empty(trim($_POST['first_name']))) {
         $errors[] = "First Name is required.";
     }
@@ -38,111 +46,102 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $errors[] = "User Role is required.";
     }
 
-    // DUPLICATE CHECK (Only run this if the user actually typed an email)
+    // DUPLICATE CHECK: Check if email already exists in the database
     if (!empty(trim($_POST['email']))) {
-        $submitted_email = strtolower(trim($_POST['email'])); // Normalize email to lowercase
+        $submitted_email = strtolower(trim($_POST['email']));
 
-        // Open the file and look through existing members
-        if (file_exists($file) && filesize($file) > 0) {
-            $current_data = file_get_contents($file);
-            $members_array = json_decode($current_data, true);
-
-            // Loop through each member in the JSON file
-            foreach ($members_array as $existing_member) {
-                if (strtolower($existing_member['email']) === $submitted_email) {
-                    // Match found! Toss a new error into our array
-                    $errors[] = "A user with this email address already exists.";
-                    break; // Stop looking, we found a duplicate
-                }
-            }
+        $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ? LIMIT 1");
+        $stmt->execute([$submitted_email]);
+        if ($stmt->fetch()) {
+            $errors[] = "A user with this email address already exists.";
         }
     }
 
     if (!empty($errors)) {
-        
         $errorMessage = "Please fix the following errors:\\n";
         foreach ($errors as $error) {
             $errorMessage .= "- " . $error . "\\n";
         }
-
-        // Inject the JavaScript alert
         echo "<script>alert('$errorMessage');</script>";
-
     } else {
-    // Fetch current file data array to calculate next auto-incremental ID values
-        if (file_exists($file) && filesize($file) > 0) {
-            $current_data = file_get_contents($file);
-            $members_array = json_decode($current_data, true);
-        } else {
-            $members_array = [];
+        // 1. GENERATE USERNAME: Last name + random 4-digit number (e.g., smith3921)
+        $clean_last_name = preg_replace('/[^a-zA-Z0-9]/', '', strtolower(trim($_POST['last_name'])));
+        if (empty($clean_last_name)) {
+            $clean_last_name = 'user';
         }
 
-        // 1. AUTO-GENERATE ID: Calculate unique token sequence strings
-        $next_number = count($members_array) + 1;
-        $generated_id = "USR" . str_pad($next_number, 3, "0", STR_PAD_LEFT);
+        // Ensure uniqueness by checking the database loop
+        do {
+            $random_number = rand(1000, 9999);
+            $username = $clean_last_name . $random_number;
 
-        // 2. DEFAULT SECURITY ENCRYPTION: Lock account to universal setup password
-        $default_raw_password = "Welcome123!"; 
+            $check_stmt = $pdo->prepare("SELECT id FROM users WHERE username = ? LIMIT 1");
+            $check_stmt->execute([$username]);
+            $username_exists = $check_stmt->fetch();
+        } while ($username_exists);
+
+        // 2. DEFAULT SECURITY ENCRYPTION: Lock account to universal setup password ("password")
+        $default_raw_password = "password";
         $secure_hash = password_hash($default_raw_password, PASSWORD_BCRYPT);
 
-        // 3. SECURE PAYLOAD: Package up form properties alongside core server fields
-        $member = [
-            "id"           => $generated_id,
-            "email"        => htmlspecialchars(strtolower(trim($_POST['email']))),
-            "password"     => $secure_hash,
-            "first_name"   => htmlspecialchars(trim($_POST['first_name'])),
-            "last_name"    => htmlspecialchars(trim($_POST['last_name'])),
-            "role"         => htmlspecialchars($_POST['role']),
-            "access_level" => ($_POST['role'] === 'Manager') ? 'admin' : 'employee'
-        ];
+        // 3. MAP COMPANY LEVEL: Admin if role is Admin or Manager, else Staff
+        $selected_role = $_POST['role'];
+        $company_level = ($selected_role === 'Admin' || $selected_role === 'Manager') ? 'Admin' : 'Staff';
 
-        $success = true;
+        // 4. INSERT INTO DATABASE
+        $sql = "INSERT INTO users (username, password, first_name, last_name, email, company_level, status) 
+                VALUES (?, ?, ?, ?, ?, ?, 'Active')";
 
-        // Add the new member to our list
-        $members_array[] = $member;
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            $username,
+            $secure_hash,
+            trim($_POST['first_name']),
+            trim($_POST['last_name']),
+            strtolower(trim($_POST['email'])),
+            $company_level
+        ]);
 
-        // Save the updated list back into the file
-        file_put_contents($file, json_encode($members_array, JSON_PRETTY_PRINT));
-        // -------------------------------------
+        $_SESSION['flash_message'] = "Employee Added: " . trim($_POST['first_name']) . " " . trim($_POST['last_name']) . " (Username: $username - Role: $company_level)";
 
-        $_SESSION['flash_message'] = "Employee Added: " . $member['first_name'] . " " . $member['last_name'] . " (" . $member['role'] . ")";
-            
         header("Location: view_employee.php");
-        exit();  
-}
+        exit();
+    }
 }
 
-$page_title = "Create Employee profile";
+$page_title = "Create Employee Profile";
 include __DIR__ . '/../templates/header_template.php';
 ?>
+<div class="dashboard-wrapper">
+    <h2>Create New Employee Profile</h2>
 
-<h2>Create New Employee Profile</h2>
+    <a href="../index.php" class="btn">Back to Dashboard</a>
 
-    <a href="../index.php" class="btn">Back to Dashboard</a> 
+    <hr />
 
-<hr />
+    <div class="create_menu">
+        <form action="create_employee.php" method="POST">
 
-<div class="create_menu">
-    <form action="create_employee.php" method="POST">
-        
-        <label>First Name:</label><br>
-        <input type="text" name="first_name" required><br><br>
+            <label>First Name:</label><br>
+            <input type="text" name="first_name" required><br><br>
 
-        <label>Last Name:</label><br>
-        <input type="text" name="last_name"required><br><br>        
+            <label>Last Name:</label><br>
+            <input type="text" name="last_name" required><br><br>
 
-        <label>Email Address:</label><br>
-        <input type="email" name="email" required placeholder="name@company.com"><br><br>
+            <label>Email Address:</label><br>
+            <input type="email" name="email" required placeholder="name@company.com"><br><br>
 
-        <label>Employee Role:</label><br>
-        <select name="role" id="role" required>
-            <option value="" disabled selected>-- Select a Role --</option>
-            <option value="Manager">Manager</option>
-            <option value="Staff">Staff</option>
-            <option value="Volunteer">Volunteer</option>
+            <label>Employee Role:</label><br>
+            <select name="role" id="role" required>
+                <option value="" disabled selected>-- Select a Role --</option>
+                <option value="Admin">Admin</option>
+                <option value="Manager">Manager</option>
+                <option value="Staff">Staff</option>
+                <option value="Volunteer">Volunteer</option>
             </select>
             <br><br>
-        <button type="submit" class="submit-btn">Create New Employee Profile</button>
-    </form>
+            <button type="submit" class="submit-btn">Create New Employee Profile</button>
+        </form>
+    </div>
 </div>
-</div> <?php include '../templates/footer_template.php'; ?>
+<?php include '../templates/footer_template.php'; ?>

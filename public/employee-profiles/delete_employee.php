@@ -1,36 +1,52 @@
 <?php
-session_start();
-
-if (isset($_GET['email'])) {
-    $email_to_delete = urldecode($_GET['email']);
-    $file = '../../data/employee_list.json';
-
-    if (file_exists($file) && filesize($file) > 0) {
-        $json_data = file_get_contents($file);
-        $members = json_decode($json_data, true);
-
-        $user_found = false;
-        $deleted_name = "";
-        $updated_members = [];
-
-        foreach ($members as $m) {
-            if ($m['email'] === $email_to_delete) {
-                $user_found = true; 
-                $deleted_name = $m['first_name'] . ' ' . $m['last_name'];
-                continue;           
-            }
-            $updated_members[] = $m;
-        }
-
-        if ($user_found) {
-            file_put_contents($file, json_encode($updated_members, JSON_PRETTY_PRINT));
-            $_SESSION['flash_message'] = "Successfully deleted Employee: " . htmlspecialchars($deleted_name) . " with email " . $email_to_delete;
-        } else {
-            $_SESSION['flash_message'] = "Error: User could not be found.";
-        }
-    }
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
 
-// Redirect back to the display view page
+// Security Gate: Only let Admin delete
+if (!isset($_SESSION['access_level']) || $_SESSION['access_level'] !== 'Admin') {
+    header("Location: ../index.php");
+    exit();
+}
+
+if (isset($_GET['id'])) {
+    $id_to_delete = filter_var($_GET['id'], FILTER_VALIDATE_INT);
+
+    // Database connection details
+    $host = 'mariadb';
+    $db   = 'db_data_test';
+    $user = 'user';
+    $pass = 'password';
+
+    try {
+        $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        ]);
+
+        // 1. Fetch user first to get their name for the confirmation message
+        $stmt = $pdo->prepare("SELECT first_name, last_name FROM users WHERE id = ? LIMIT 1");
+        $stmt->execute([$id_to_delete]);
+        $user_data = $stmt->fetch();
+
+        if ($user_data) {
+            $deleted_name = $user_data['first_name'] . ' ' . $user_data['last_name'];
+
+            // 2. Perform deletion by ID
+            $delete_stmt = $pdo->prepare("DELETE FROM users WHERE id = ?");
+            $delete_stmt->execute([$id_to_delete]);
+
+            $_SESSION['flash_message'] = "Successfully deleted Employee: " . htmlspecialchars($deleted_name);
+        } else {
+            $_SESSION['flash_message'] = "Error: User could not be found in the database.";
+        }
+    } catch (PDOException $e) {
+        $_SESSION['flash_message'] = "Database error during deletion: " . $e->getMessage();
+    }
+} else {
+    $_SESSION['flash_message'] = "Error: No ID parameter provided for deletion.";
+}
+
+// Redirect back to view employee directory
 header("Location: view_employee.php");
 exit();

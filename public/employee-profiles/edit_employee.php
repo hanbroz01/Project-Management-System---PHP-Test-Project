@@ -1,45 +1,61 @@
 <?php
-session_start();
+// Start the session to manage login states across pages
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-$file = 'employee_list.json';
+// Security Gate: Verify that the user is logged in and has Admin privileges
+if (!isset($_SESSION['access_level']) || $_SESSION['access_level'] !== 'Admin') {
+    header("Location: ../index.php");
+    exit();
+}
+
+// Define database connection credentials for MariaDB
+$host = 'mariadb';
+$db   = 'db_data_test';
+$user = 'user';
+$pass = 'password';
+
+try {
+    // Attempt to establish a secure database connection using PDO
+    $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    ]);
+} catch (PDOException $e) {
+    // Stop execution if the database connection fails and show the error
+    die("Database connection failed: " . $e->getMessage());
+}
+
+// Initialize variables for holding user data and validation errors
 $user_to_edit = null;
 $errors = [];
 
-// -------------------------------------------------------------------------
-// STEP 1: LOAD USER DATA (When arriving from view_employee.php via GET)
-// -------------------------------------------------------------------------
-if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET['email'])) {
-    $email_to_find = urldecode($_GET['email']);
+// Handle incoming GET requests to load employee data when arriving from view_employee.php
+if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET['id'])) {
+    $id_to_find = filter_var($_GET['id'], FILTER_VALIDATE_INT);
 
-    if (file_exists($file) && filesize($file) > 0) {
-        $json_data = file_get_contents($file);
-        $members = json_decode($json_data, true);
+    // Fetch the specific user record from the database by their unique ID
+    $stmt = $pdo->prepare("SELECT id, first_name, last_name, email, company_level FROM users WHERE id = ? LIMIT 1");
+    $stmt->execute([$id_to_find]);
+    $user_to_edit = $stmt->fetch();
 
-        // Find the specific user
-        foreach ($members as $m) {
-            if ($m['email'] === $email_to_find) {
-                $user_to_edit = $m;
-                break;
-            }
-        }
-    }
-    
+    // If no user is found with that ID, set a flash message and redirect back
     if (!$user_to_edit) {
-        $_SESSION['flash_message'] = "Error: User could not be found.";
-        header("Location: view_employee.php"); 
+        $_SESSION['flash_message'] = "Error: User could not be found in the database.";
+        header("Location: view_employee.php");
         exit();
     }
 }
 
-// -------------------------------------------------------------------------
-// STEP 2: SAVE UPDATED DATA (When the user clicks "Save Changes" via POST)
-// -------------------------------------------------------------------------
+// Handle form submission via POST when the user clicks "Save Changes"
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $original_email = $_POST['original_email'];
+    $user_id = filter_var($_POST['user_id'] ?? 0, FILTER_VALIDATE_INT);
     $new_first_name = trim($_POST['first_name']);
-    $new_last_name = trim($_POST['last_name']); 
-    $new_role = $_POST['role'];
+    $new_last_name = trim($_POST['last_name']);
+    $new_role = $_POST['role'] ?? 'Staff';
 
+    // Validate that required name fields are not left blank
     if (empty($new_first_name)) {
         $errors[] = "First name cannot be empty.";
     }
@@ -47,87 +63,74 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $errors[] = "Last name cannot be empty.";
     }
 
+    // If no validation errors occurred, proceed with updating the database record
     if (empty($errors)) {
-        if (file_exists($file) && filesize($file) > 0) {
-            $json_data = file_get_contents($file);
-            $members = json_decode($json_data, true);
+        // Directly save the selected role into the company_level column
+        $update_stmt = $pdo->prepare("UPDATE users SET first_name = ?, last_name = ?, company_level = ? WHERE id = ?");
+        $update_stmt->execute([
+            $new_first_name,
+            $new_last_name,
+            $new_role, // Uses the exact selected dropdown value (Admin, Manager, Staff, Volunteer)
+            $user_id
+        ]);
 
-            $user_found = false; 
-
-            foreach ($members as $key => $m) {
-                if ($m['email'] === $original_email) {
-                    $members[$key]['first_name'] = htmlspecialchars($new_first_name);
-                    $members[$key]['last_name'] = htmlspecialchars($new_last_name); 
-                    $members[$key]['role'] = htmlspecialchars($new_role);
-                    $user_found = true; 
-                    break;
-                }
-            }
-
-            if ($user_found) {
-                file_put_contents($file, json_encode($members, JSON_PRETTY_PRINT));
-                $_SESSION['flash_message'] = "Successfully edited Employee data!";
-                
-                header("Location: view_employee.php");
-                exit();
-            } else {
-                $errors[] = "Error: User could not be found to update.";
-            }
-        }
+        // Set success notification and redirect back to the employee list
+        $_SESSION['flash_message'] = "Successfully edited Employee data for " . htmlspecialchars($new_first_name . ' ' . $new_last_name) . "!";
+        header("Location: view_employee.php");
+        exit();
     }
-    
-    // Handle error dropouts
+
+    // If errors exist, trigger a JavaScript alert and return to the previous page
     if (!empty($errors)) {
         $errorMessage = implode("\\n", $errors);
         echo "<script>alert('$errorMessage'); window.history.back();</script>";
         exit();
     }
 }
+
+// Set page title and include standard layout templates
+$page_title = "Edit Employee";
+include __DIR__ . '/../templates/header_template.php';
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Edit Employee</title>
-    <link rel="stylesheet" href="scheduling-app/public/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-</head>
-<body>
-
+<div class="dashboard-wrapper">
     <h2>Edit Employee Data</h2>
-    <a href="index.php" class="btn">Back to Dashboard</a>
+
+    <a href="../index.php" class="btn">Back to Dashboard</a>
     <a href="view_employee.php" class="btn">Back to View all Employees</a>
-    <hr/>
+    <hr />
     <br>
 
     <div class="form-container">
+        <!-- Form submits updated values back to this script via POST -->
         <form action="edit_employee.php" method="POST">
-            
-            <input type="hidden" name="original_email" value="<?php echo htmlspecialchars($user_to_edit['email'] ?? ''); ?>">
+
+            <!-- Hidden input to safely track which user ID is being edited -->
+            <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($user_to_edit['id'] ?? ''); ?>">
 
             <label><strong>Email Address (Cannot Be Changed):</strong></label>
             <p><?php echo htmlspecialchars($user_to_edit['email'] ?? ''); ?></p>
+            <br>
 
-            <label>First Name:</label>
-            <input type="text" name="first_name" value="<?php echo htmlspecialchars($user_to_edit['first_name'] ?? ''); ?>">
+            <label>First Name:</label><br>
+            <input type="text" name="first_name" value="<?php echo htmlspecialchars($user_to_edit['first_name'] ?? ''); ?>" required><br><br>
 
-            <label>Last Name:</label>
-            <input type="text" name="last_name" value="<?php echo htmlspecialchars($user_to_edit['last_name'] ?? ''); ?>">
+            <label>Last Name:</label><br>
+            <input type="text" name="last_name" value="<?php echo htmlspecialchars($user_to_edit['last_name'] ?? ''); ?>" required><br><br>
 
-            <label>Employee Role:</label>
-            <select name="role">
-                <option value="Manager" <?php echo (($user_to_edit['role'] ?? '') === 'manager') ? 'selected' : ''; ?>>Manager</option>
-                <option value="Staff" <?php echo (($user_to_edit['role'] ?? '') === 'staff') ? 'selected' : ''; ?>>Staff</option>
-                <option value="Volunteer" <?php echo (($user_to_edit['role'] ?? '') === 'volunteer') ? 'selected' : ''; ?>>Volunteer</option>
+            <label>Employee Role:</label><br>
+            <select name="role" required>
+                <option value="Admin" <?php echo (($user_to_edit['company_level'] ?? '') === 'Admin') ? 'selected' : ''; ?>>Admin</option>
+                <option value="Manager" <?php echo (($user_to_edit['company_level'] ?? '') === 'Manager') ? 'selected' : ''; ?>>Manager</option>
+                <option value="Staff" <?php echo (($user_to_edit['company_level'] ?? '') === 'Staff') ? 'selected' : ''; ?>>Staff</option>
+                <option value="Volunteer" <?php echo (($user_to_edit['company_level'] ?? '') === 'Volunteer') ? 'selected' : ''; ?>>Volunteer</option>
             </select>
+            <br><br>
 
             <button type="submit" class="btn-save">Save Changes</button>
             <a href="view_employee.php" class="btn-cancel">Cancel</a>
         </form>
     </div>
+</div>
 
-</body>
-</html>
+<?php include '../templates/footer_template.php'; ?>

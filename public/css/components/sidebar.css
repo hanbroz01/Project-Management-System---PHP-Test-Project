@@ -1,65 +1,27 @@
-/* ==========================================================================
-   GLOBAL APP LAYOUT SYSTEM
-   ========================================================================== */
-
-/* The master flex container that handles side-by-side positioning */
-.app-wrapper {
-  display: flex;
-  width: 100%;
-  min-height: 100vh;
-  background-color: #f4f7f6; /* Soft professional backdrop for the workspace */
-}
-
-/* ==========================================================================
-   TOP WHITE HEADER BAR STYLES
-   ========================================================================== */
-.main-navigation {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: calc(
-    100% - 260px
-  ); /* Locks header completely to the right workspace */
-
-  background-color: #ffffff;
-  border-bottom: 1px solid #eef2f5;
-  z-index: 200; /* Keeps it above the sidebar panel layer */
+.sidebar + .dashboard-wrapper {
+  margin-left: 260px;          
+  width: calc(100% - 260px);  
   box-sizing: border-box;
+} 
 
-  display: flex;
-  align-items: center;
-
-  padding: 14px 32px;
-
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  margin-bottom: 24px;
-
-  justify-content: space-between;
-
-  position: fixed;
-}
-
-/* ==========================================================================
-   FIXED LEFT SIDEBAR NAVIGATION STYLES
-   ========================================================================== */
 .sidebar {
   width: 260px;
-  height: 100vh; /* Spans all the way from top to bottom viewport */
-  background-color: #1a428a; /* Clean corporate navy blue */
+  top: 70px;
+  bottom: 0;
+  
+  background-color: #1a428a; 
   color: #ffffff;
   display: flex;
   flex-direction: column;
-  position: fixed; /* Anchors locked to the screen frame */
+  position: fixed;       
   left: 0;
-  top: 0;
   box-sizing: border-box;
   padding: 24px 0;
-  z-index: 150; /* Layer underneath top bar dropdowns */
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   border-right: 1px solid rgba(255, 255, 255, 0.1);
+  overflow-y: auto;       
 }
 
-/* 1. Top Branding/Logo Area (MATCHED TO YOUR HTML) */
 .sidebar-brand {
   display: flex;
   align-items: center;
@@ -70,7 +32,7 @@
 
 .brand-icon {
   font-size: 28px;
-  color: #00bfd8; /* Bright teal accent color for the logo */
+  color: #00bfd8;
 }
 
 .brand-text h2 {
@@ -87,9 +49,8 @@
   margin-top: 2px;
 }
 
-/* 2. Menu Links System */
 .sidebar-menu {
-  flex-grow: 1; /* Forces menu to scale up, pushing footer down */
+  flex-grow: 1; 
   padding-top: 24px;
 }
 
@@ -114,7 +75,6 @@
   transition: all 0.2s ease;
 }
 
-/* Icon block alignment footprint */
 .sidebar-menu li.menu-item a i {
   width: 30px;
   font-size: 1.1rem;
@@ -132,30 +92,29 @@
   color: #ffffff;
 }
 
-/* Menu Active Page State (e.g. Dashboard Tab highlight) */
+/* Menu Active Page State */
 .sidebar-menu li.menu-item.active {
   background-color: rgba(255, 255, 255, 0.12);
-  border-left: 4px solid #00bfd8; /* Distinct left border strip */
+  border-left: 4px solid #00bfd8;
 }
 
 .sidebar-menu li.menu-item.active a {
   color: #ffffff;
   font-weight: 600;
-  padding-left: 20px; /* Offsets padding to absorb the 4px border split */
+  padding-left: 20px;
 }
 
 .sidebar-menu li.menu-item.active i {
-  color: #00bfd8; /* Bright teal icon highlight matching theme */
+  color: #00bfd8;
 }
 
-/* 3. Bottom User Profile Area Footer (MATCHED TO YOUR HTML) */
 .sidebar-footer {
   padding: 16px 24px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
   gap: 12px;
-  background-color: rgba(0, 0, 0, 0.15); /* Shaded floor container base */
+  background-color: rgba(0, 0, 0, 0.15);
 }
 
 .user-avatar {
@@ -187,21 +146,6 @@
   color: rgba(255, 255, 255, 0.5);
 }
 
-/* ==========================================================================
-   MAIN DASHBOARD WORKSPACE PANELS STYLES
-   ========================================================================== */
-.main-content {
-  margin-left: 260px; /* CRITICAL SHIFT: Pushes text and grid clear of sidebar layout block */
-  padding: 40px;
-  padding-top: 110px; /* 70px to completely clear top navbar + 40px interior margin spacing */
-  width: calc(
-    100% - 260px
-  ); /* Forces content workspace to snap tightly to right boundary */
-  box-sizing: border-box;
-  display: block;
-}
-
-/* Resizes and positions your original image logo inside the sidebar header */
 .brand-logo-wrapper {
   width: 45px;
   height: 45px;
