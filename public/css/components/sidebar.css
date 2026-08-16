@@ -6,9 +6,8 @@
 
 .sidebar {
   width: 260px;
-  top: 70px;
+  top: 73px;
   bottom: 0;
-  
   background-color: #1a428a; 
   color: #ffffff;
   display: flex;
