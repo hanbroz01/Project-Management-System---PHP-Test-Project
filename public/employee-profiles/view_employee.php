@@ -87,5 +87,5 @@ include __DIR__ . '/../templates/header_template.php';
     }
     ?>
 </div>
-</div>
+
 <?php include '../templates/footer_template.php'; ?>

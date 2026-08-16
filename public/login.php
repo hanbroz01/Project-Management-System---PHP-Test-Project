@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Verify password and user status
         if ($user_found && password_verify($password, $user_found['password'])) {
 
-            // Optional: Check if status is Active
+            // Check if status is Active
             if ($user_found['status'] !== 'Active') {
                 $error_message = "This account is inactive. Please contact an administrator.";
             } else {

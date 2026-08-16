@@ -74,11 +74,7 @@ include __DIR__ . '/templates/sidebar.php';
         <button class="nav-btn">Function</button>
       </a>
 
-
-
     </div>
   </div>
-
-
 </div>
 <?php include 'templates/footer_template.php'; ?>
