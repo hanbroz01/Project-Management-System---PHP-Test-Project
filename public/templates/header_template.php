@@ -48,10 +48,7 @@ $base_path = (basename(dirname($_SERVER['PHP_SELF'])) == 'templates' || basename
                 </form>
 
                 <!-- Change Password Button -->
-                <?php
-                $password_link = ($base_path === '../') ? 'change_password.php' : 'public/employee-profiles/change_password.php';
-                ?>
-                <a href="<?php echo $password_link; ?>" class="login-btn" style="margin-right: 8px;">
+                <a href="/employee-profiles/change_password.php" class="login-btn" style="margin-right: 8px;">
                     <span class="login-text">Change Password</span>
                 </a>
 
