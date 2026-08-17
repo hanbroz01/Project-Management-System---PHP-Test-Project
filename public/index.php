@@ -66,11 +66,11 @@ include __DIR__ . '/templates/sidebar.php';
         <button class="nav-btn">View Employee Schedules</button>
       </a>
 
-      <a href="schedule/schedule.php" class="nav-link">
+      <a href="" class="nav-link">
         <button class="nav-btn">Function</button>
       </a>
 
-      <a href="schedule/schedule.php" class="nav-link">
+      <a href="" class="nav-link">
         <button class="nav-btn">Function</button>
       </a>
 
